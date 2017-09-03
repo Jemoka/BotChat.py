@@ -1,3 +1,5 @@
 from django.contrib import admin
+from .models import QAPairEntry, TranslatorEntry
 
-# Register your models here.
+admin.site.register(QAPairEntry)
+admin.site.register(TranslatorEntry)

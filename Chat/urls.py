@@ -15,11 +15,13 @@ Including another URLconf
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
 
-from django.conf.urls import include
 from django.conf.urls import url
-from django.contrib import admin
+from . import views
 
 urlpatterns = [
-    url(r'^admin/', admin.site.urls),
-    url(r'^Chat/', include('Chat.urls')),
+    # /Chat
+    url(r'^$', views.index, name='index'),
+
+    # /Chat/[Q Number_A Number]
+    url(r'^id=(?P<translateValue>[0-9]+)$', views.translate, name='get translate data'),
 ]
