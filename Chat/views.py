@@ -1,5 +1,6 @@
 from django.http import HttpResponse
 from django.template import loader
+
 from .models import TranslatorEntry
 
 
@@ -20,3 +21,4 @@ def translate(request, translateValue):
     responseHTML += "<h3>Result: " + result + "</h3>"
 
     return HttpResponse(responseHTML)
+

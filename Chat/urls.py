@@ -24,4 +24,6 @@ urlpatterns = [
 
     # /Chat/[Q Number_A Number]
     url(r'^id=(?P<translateValue>[0-9]+)$', views.translate, name='get translate data'),
+
+
 ]
