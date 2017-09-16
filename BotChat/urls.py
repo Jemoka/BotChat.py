@@ -21,5 +21,6 @@ from django.contrib import admin
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    url(r'^backend/', include('backend.urls')),
     url(r'^Chat/', include('Chat.urls')),
 ]

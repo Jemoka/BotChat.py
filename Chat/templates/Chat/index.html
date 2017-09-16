@@ -290,7 +290,7 @@ body {
                     text: text,
                     message_side: message_side
                 });
-                var response = JSON.parse(httpGet("/Chat/QA_Backend"))
+                var response = JSON.parse(httpGet("/backend/QA_API"))
                 console.log(response[0]["question"])
                 message.draw();
                 return $messages.animate({ scrollTop: $messages.prop('scrollHeight') }, 300);
