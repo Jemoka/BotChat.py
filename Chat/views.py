@@ -4,9 +4,7 @@ from django.template import loader
 # The chatting frontend
 def index(request):
     template = loader.get_template("Chat/index.html")
-    context = {
-
-    }
+    context = {}
     return HttpResponse(template.render(context, request))
 
 #

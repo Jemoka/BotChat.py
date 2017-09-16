@@ -22,15 +22,14 @@ from rest_framework.urlpatterns import format_suffix_patterns
 
 urlpatterns = [
 
-    # */backend/QA_API
-    url(r'^QA_API', views.QA_Backend.as_view(), name='The Question/Answer API'),
-    # url(r'^returnQA$', GetQAPair.as_view(), name='GetQAPair'),
+    # */backend/api/QA
+    url(r'^api/QAPairs$', views.QA_Backend.as_view(), name='The Question/Answer API'),
 
-    # /Chat/createQA
-    # url(r'^createQA$', CreateQAPair.as_view(), name='CreateQAPair'),
+    # */backend/api/TranslatePairs
+    url(r'^api/TranslatorPairs', views.Translator_Backend.as_view(), name='The Translator API'),
 
-    # /Chat/[Q Number_A Number]
-    # url(r'^id=(?P<translateValue>[0-9]+)$', views.translate, name='get translate data'),
+    # */backend/AI_Backend
+    url(r'^api/AI_Backend', views.AI_Backend.as_view(), name='The AI Engine'),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)
