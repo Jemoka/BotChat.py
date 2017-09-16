@@ -2,8 +2,6 @@
 
 # Keep_Alive
 import time
-
-time.sleep(1)
 # Numpy
 import numpy as np
 
@@ -49,6 +47,7 @@ def predictAnswer(question_entry):
 
 
 def storeQAPair(question_entry, answer_entry):
+
     entry = QAPairEntry(question=question_entry, answer=answer_entry)
     entry.save()
 
