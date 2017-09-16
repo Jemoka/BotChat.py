@@ -18,12 +18,19 @@ Including another URLconf
 from django.conf.urls import url
 from . import views
 from rest_framework.urlpatterns import format_suffix_patterns
-# from .views import (GetQAPair, CreateQAPair)
 
 
 urlpatterns = [
-    # /Chat
-    url(r'^$', views.index, name='index'),
+
+    # */backend/QA_API
+    url(r'^QA_API', views.QA_Backend.as_view(), name='The Question/Answer API'),
+    # url(r'^returnQA$', GetQAPair.as_view(), name='GetQAPair'),
+
+    # /Chat/createQA
+    # url(r'^createQA$', CreateQAPair.as_view(), name='CreateQAPair'),
+
+    # /Chat/[Q Number_A Number]
+    # url(r'^id=(?P<translateValue>[0-9]+)$', views.translate, name='get translate data'),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

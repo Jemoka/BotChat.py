@@ -1,6 +1,7 @@
 from rest_framework import serializers
-from .models import TranslatorEntry
-from .models import QAPairEntry
+
+from backend.models import QAPairEntry
+from backend.models import TranslatorEntry
 
 
 class TranslatorEntrySerializer(serializers.ModelSerializer):

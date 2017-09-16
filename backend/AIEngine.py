@@ -2,17 +2,14 @@
 
 # Keep_Alive
 import time
-# Numpy
-import numpy as np
 
 # Sklearn ML Libraries
-from sklearn.naive_bayes import GaussianNB
-from sklearn.tree import tree
 import sklearn.svm as svm
-import sklearn.ensemble as ensemble
 
 # Django modding libraries
-from Chat.models import QAPairEntry, TranslatorEntry
+from backend.models import QAPairEntry, TranslatorEntry
+
+# Numpy
 
 # Classifiers
 # clf = ensemble.RandomForestClassifier()
@@ -30,8 +27,6 @@ def getResponceTranslation(searchKey):
 def getQuestionKey(searchString):
     return TranslatorEntry.objects.filter(key=searchString).values_list("key", flat=True)[0]
 
-
-# HTML-Accessible Functions (see tag.py)
 def trainCLF():
     try:
         clf.fit(list(QAPairEntry.objects.values_list('question', flat=True)), list(QAPairEntry.objects.values_list('answer', flat=True).ravel()))
