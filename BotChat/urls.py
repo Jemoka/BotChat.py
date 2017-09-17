@@ -18,9 +18,11 @@ Including another URLconf
 from django.conf.urls import include
 from django.conf.urls import url
 from django.contrib import admin
+from start import views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^backend/', include('backend.urls')),
     url(r'^Chat/', include('Chat.urls')),
+    url(r'^$', views.index, name='index'),
 ]
