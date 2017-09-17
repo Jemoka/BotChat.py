@@ -5,7 +5,7 @@ from .serializer import *
 from .models import TranslatorEntry
 from .models import QAPairEntry
 from .AIEngine import AIEngine, DatabaseModule
-from django.core import serializers
+from django.db.models import Max
 
 # The database backend
 class QA_Backend(APIView):
@@ -36,31 +36,18 @@ class Translator_Backend(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-# The artificial intelligence backend
-# class AI_Backend(APIView):
-#     def get(self, request):
-#         serializer = AIRequestSerializer(data=request.data, many=False)
-#         if serializer.is_valid():
-#             data = serializer.data
-#         else:
-#             print(serializer.errors)
-#             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-#         print(dict(data))
-#         engine = AIEngine(type=data['type'])
-#         return Response(engine.predictAnswer(data["question"]))
-#
-#     def put(self, request):
-#         dbmodule = DatabaseModule()
-#         print("PUT")
-#         print(request)
-#         data = request.data
-#         print(dict(data.lists()))
-#         dataDict = dict(data.lists())
-#         try:
-#             dbmodule.storeQAPair(dataDict["question"], dataDict["answer"])
-#             return Response(0)
-#         except Exception as e:
-#             return Response(e)
+class DB_Backend(APIView):
+    def put(self, request):
+        serializer = AITDataSerialier(data=request.data, many=False)
+        if serializer.is_valid():
+            data = serializer.data
+        else:
+            print(serializer.errors)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        dbmodule = DatabaseModule()
+        dbmodule.storeQAPair(question_entry=list(data.values())[0], answer_entry=list(data.values())[1])
+        return Response(status.HTTP_200_OK)
+
 
 class AI_Backend(APIView):
     def put(self, request):
@@ -73,3 +60,4 @@ class AI_Backend(APIView):
         engine = AIEngine(type=list(data.values())[0])
         print("RESPONSE:"+engine.predictAnswer(list(data.values())[1]))
         return Response(engine.predictAnswer(list(data.values())[1]))
+

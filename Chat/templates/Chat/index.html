@@ -238,6 +238,9 @@ body {
 <!--Chat Frontend Source-->
 <script>
 
+    var currentCount = 0;
+    var messageTexts = [];
+
     var csrfcookie = function() {
         var cookieValue = null,
             name = 'csrftoken';
@@ -254,15 +257,17 @@ body {
         return cookieValue;
     };
 
-    function httpGet(url, typeEntry, questionEntry)
+    function putDBEntry(url, question, answer)
     {
         var xmlHttp = new XMLHttpRequest();
-        xmlHttp.open( "GET", url, false );
-        xmlHttp.send(JSON.stringify({type: typeEntry, question: questionEntry}));
+        xmlHttp.open( "PUT", url, false );
+        xmlHttp.setRequestHeader("Content-Type", "application/json");
+        xmlHttp.setRequestHeader('X-CSRFToken', csrfcookie());
+        xmlHttp.send(JSON.stringify({question: question, answer: answer}));
         return xmlHttp.responseText;
     }
 
-    function httpPut(url, typeEntry, questionEntry)
+    function makeAIRequest(url, typeEntry, questionEntry)
     {
         var xmlHttp = new XMLHttpRequest();
         xmlHttp.open("PUT", url, false)
@@ -291,6 +296,18 @@ body {
             }(this);
             return this;
         };
+        // Initial Message
+        var $messages, message;
+        $messages = $('.messages');
+        message_side = 'left';
+        message = new Message({
+            text: "Hi, I am Jemoka the Chat Bot. How are you?",
+            message_side: message_side
+        });
+        message.draw();
+        $messages.animate({ scrollTop: $messages.prop('scrollHeight') }, 300);
+        currentCount+=1;
+        messageTexts.push("Hi, I am Jemoka the Chat Bot. How are you?")
         $(function () {
             var getMessageText, message_side, sendMessage;
             message_side = 'right';
@@ -307,23 +324,28 @@ body {
                 }
                 $('.message_input').val('');
                 $messages = $('.messages');
-                message_side = 'right'
+                message_side = 'right';
                 message = new Message({
                     text: text,
                     message_side: message_side
                 });
                 message.draw();
                 $messages.animate({ scrollTop: $messages.prop('scrollHeight') }, 300);
+                messageTexts.push(text);
+
 
                 //Message 2: Server Response
                 message_side = 'left';
                 var message2 = new Message({
-                    text: httpPut("/backend/api/AI_Backend", "SVM", text.toLowerCase()).replace(/['"]+/g, ''),
+                    text: makeAIRequest("/backend/api/AI_Backend", "DTC", text.toLowerCase()).replace(/['"]+/g, ''),
                     message_side: message_side
                 });
                 // var response = JSON.parse(httpGet("/backend/QA_API"))
                 // console.log(response[0]["question"])
                 message2.draw();
+                messageTexts.push(text)
+                putDBEntry("/backend/api/DB_Backend", messageTexts[currentCount-1], messageTexts[currentCount]);
+                currentCount+=2;
                 return $messages.animate({ scrollTop: $messages.prop('scrollHeight') }, 300);
 
             };

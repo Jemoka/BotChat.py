@@ -17,7 +17,7 @@ class QAPairEntrySerializer(serializers.ModelSerializer):
         fields = ('question', 'answer')
 
 
-class AIResponceSerialier(serializers.Serializer):
+class AITDataSerialier(serializers.Serializer):
 
     question = serializers.CharField(max_length=200)
     answer = serializers.CharField(max_length=200)
@@ -27,3 +27,4 @@ class AIRequestSerializer(serializers.Serializer):
 
     type = serializers.CharField(max_length=200)
     question = serializers.CharField(max_length=200)
+

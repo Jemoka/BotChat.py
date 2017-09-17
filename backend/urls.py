@@ -30,6 +30,9 @@ urlpatterns = [
 
     # */backend/AI_Backend
     url(r'^api/AI_Backend', views.AI_Backend.as_view(), name='The AI Engine'),
+
+    # */backend/DB_Backend
+    url(r'^api/DB_Backend', views.DB_Backend.as_view(), name='The Database API'),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

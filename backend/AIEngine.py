@@ -15,7 +15,7 @@ from django.db.models import Max
 
 class DatabaseModule():
     def storeQAPair(self, question_entry, answer_entry):
-        maxvalue = TranslatorEntry.objects.all().aggregate(Max('key'))
+        maxvalue = TranslatorEntry.objects.all().aggregate(Max('key'))['key__max']
         question_translation = TranslatorEntry(key=maxvalue+1, value=question_entry)
         question_translation.save()
         answer_translation = TranslatorEntry(key=maxvalue+2, value=answer_entry)
