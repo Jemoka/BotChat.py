@@ -25,3 +25,26 @@ class TranslatorEntry(models.Model):
     class Meta:
         verbose_name = "Translator Entry"
         verbose_name_plural = "Translator Entries"
+
+# A list of classes who participated
+class Class(models.Model):
+    classKey = models.CharField(max_length=5)
+    verboseName = models.CharField(max_length=1000)
+
+    def __str__(self):
+        return "Key: " + str(self.classKey) + "\t" + "Name: " + str(self.verboseName)
+
+    class Meta:
+        verbose_name = "Locked class"
+        verbose_name_plural = "Locked classes"
+
+# A list of keys who participated
+class ExpiredKey(models.Model):
+    key = models.CharField(max_length=8)
+
+    def __str__(self):
+        return self.key
+
+    class Meta:
+        verbose_name = "Expired key"
+        verbose_name_plural = "Expired keys"

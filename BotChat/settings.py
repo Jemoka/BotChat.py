@@ -25,7 +25,7 @@ SECRET_KEY = 't+-h(1b=j)a7fgid52$r_cl9n2j-um8fwun@3z1)tw#llj9nf)'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['10.0.0.91', '127.0.0.1', 'localhost']
 
 
 # Application definition
@@ -52,6 +52,11 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+# REST_FRAMEWORK = {
+#     'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.IsAdminUser',),
+#     'PAGINATE_BY': 10
+# }
 
 ROOT_URLCONF = 'BotChat.urls'
 

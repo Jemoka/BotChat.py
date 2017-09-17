@@ -28,3 +28,8 @@ class AIRequestSerializer(serializers.Serializer):
     type = serializers.CharField(max_length=200)
     question = serializers.CharField(max_length=200)
 
+class ClassSerializer(serializers.Serializer):
+
+    classKey = serializers.CharField(max_length=5)
+    verboseName = serializers.CharField(max_length=1000)
+

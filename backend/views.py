@@ -2,10 +2,10 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from .serializer import *
-from .models import TranslatorEntry
-from .models import QAPairEntry
+from .models import TranslatorEntry, QAPairEntry, Class
 from .AIEngine import AIEngine, DatabaseModule
 from django.db.models import Max
+
 
 # The database backend
 class QA_Backend(APIView):
@@ -20,6 +20,13 @@ class QA_Backend(APIView):
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class Class_Backend(APIView):
+    def get(self, request):
+        queryset = Class.objects.all()
+        serializer = ClassSerializer(queryset, many=True)
+        return Response(serializer.data)
 
 
 class Translator_Backend(APIView):
@@ -61,4 +68,5 @@ class AI_Backend(APIView):
         engine = AIEngine(type=list(data.values())[0])
         print("RESPONSE:"+engine.predictAnswer(list(data.values())[1]))
         return Response(engine.predictAnswer(list(data.values())[1]))
+
 

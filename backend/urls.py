@@ -28,11 +28,15 @@ urlpatterns = [
     # */backend/api/TranslatePairs
     url(r'^api/TranslatorPairs', views.Translator_Backend.as_view(), name='The Translator API'),
 
-    # */backend/AI_Backend
-    url(r'^api/AI_Backend', views.AI_Backend.as_view(), name='The AI Engine'),
+    # */backend/Class_Backend
+    url(r'^api/Class_Backend', views.Class_Backend.as_view(), name='The Class API'),
 
     # */backend/DB_Backend
     url(r'^api/DB_Backend', views.DB_Backend.as_view(), name='The Database API'),
+
+    # */backend/AI_Backend
+    url(r'^api/AI_Backend', views.AI_Backend.as_view(), name='The AI Engine'),
+
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)
