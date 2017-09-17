@@ -238,8 +238,9 @@ body {
 <!--Chat Frontend Source-->
 <script>
 
-    var currentCount = 0;
+    var currentCount = -1;
     var messageTexts = [];
+    var hangingQuestion = false;
 
     var csrfcookie = function() {
         var cookieValue = null,
@@ -332,20 +333,41 @@ body {
                 message.draw();
                 $messages.animate({ scrollTop: $messages.prop('scrollHeight') }, 300);
                 messageTexts.push(text);
+                currentCount+=1;
+
 
 
                 //Message 2: Server Response
                 message_side = 'left';
-                var message2 = new Message({
-                    text: makeAIRequest("/backend/api/AI_Backend", "DTC", text.toLowerCase()).replace(/['"]+/g, ''),
-                    message_side: message_side
-                });
+                var serverResponse = makeAIRequest("/backend/api/AI_Backend", "SVM", text.toLowerCase()).replace(/['"]+/g, '');
+                //After making the request, it is safe to store the previous one into the database
+                var message2 = null
+                if (serverResponse === "NOT_FOUNT_DRES") {
+                    message2 = new Message({
+
+                        text: "I don't know, can you tell me?",
+
+                        message_side: message_side
+                    });
+                    putDBEntry("/backend/api/DB_Backend", messageTexts[currentCount-1], messageTexts[currentCount]);
+                }
+                else{
+                    message2 = new Message({
+
+                        text: serverResponse,
+
+                        message_side: message_side
+
+                    });
+                    messageTexts.push(serverResponse)
+                    currentCount+=1;
+
+                }
+
                 // var response = JSON.parse(httpGet("/backend/QA_API"))
                 // console.log(response[0]["question"])
                 message2.draw();
-                messageTexts.push(text)
-                putDBEntry("/backend/api/DB_Backend", messageTexts[currentCount-1], messageTexts[currentCount]);
-                currentCount+=2;
+                console.log("messageTexts:"+messageTexts)
                 return $messages.animate({ scrollTop: $messages.prop('scrollHeight') }, 300);
 
             };

@@ -28,9 +28,9 @@ class DatabaseModule():
 
     def getDictionaryKey(self, searchString):
         try:
-            return TranslatorEntry.objects.filter(value=searchString).values_list("key", flat=True)[0]
+            return TranslatorEntry.objects.filter(value__contains=searchString).values_list("key", flat=True)[0]
         except IndexError:
-            return 0
+            return 'NOT_FOUNT_DRES'
 
 
 class AIEngine():
@@ -57,7 +57,10 @@ class AIEngine():
             self.clf.fit(temp_questionlist, temp_answerlist)
 
     def predictAnswer(self, question):
-        result = self.clf.predict(self.databaseHandler.getDictionaryKey(question))
+        translation = self.databaseHandler.getDictionaryKey(question)
+        if translation == 'NOT_FOUNT_DRES':
+            return "NOT_FOUNT_DRES"
+        result = self.clf.predict(translation)
         return self.databaseHandler.getTranslation(result)
 
 

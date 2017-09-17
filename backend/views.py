@@ -45,6 +45,7 @@ class DB_Backend(APIView):
             print(serializer.errors)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         dbmodule = DatabaseModule()
+        print("ran! q:"+list(data.values())[0]+"a"+list(data.values())[1])
         dbmodule.storeQAPair(question_entry=list(data.values())[0], answer_entry=list(data.values())[1])
         return Response(status.HTTP_200_OK)
 
