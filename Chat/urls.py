@@ -23,7 +23,7 @@ from rest_framework.urlpatterns import format_suffix_patterns
 
 urlpatterns = [
     # /Chat
-    url(r'^(?P<hash>\w+)$', views.index),
+    url(r'^$', views.index),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

@@ -172,7 +172,7 @@
             var result = jQuery.parseJSON(lockedClasses);
             if (result.length===0)
             {
-                window.location.href = '/Chat/'+crc32(crc32(preHash));
+                window.location.href = '/Chat?hash=' + crc32(crc32(preHash))+"&key="+crc32(preHash);
             }
             else {
                 for (var i = 0, len = result.length; i < len; i++) {
@@ -182,7 +182,7 @@
                         return false;
                     }
                     else {
-                        window.location.href = '/Chat/' + crc32(crc32(preHash));
+                        window.location.href = '/Chat?hash=' + crc32(crc32(preHash))+"&key="+crc32(preHash);
                     }
                 }
             }

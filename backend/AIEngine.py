@@ -48,6 +48,7 @@ class DatabaseModule():
         return previous_row[-1]
 
     def getDictionaryKey(self, searchString):
+        print("Looking up user's question ",searchString)
         try:
             qset = Q()
             for term in searchString.split():
@@ -64,15 +65,19 @@ class DatabaseModule():
             for i in distances:
                 counter += 1
                 try:
-                    if smallest["value"] > i:
+                    if i<=10:
+                        if smallest["value"] > i:
+                            smallest["value"] = i
+                            smallest["key"] = counter
+                except:
+                    if i<=10:
                         smallest["value"] = i
                         smallest["key"] = counter
-                except:
-                    smallest["value"] = i
-                    smallest["key"] = counter
-            print("using..."+TranslatorEntry.objects.filter(qset).values_list("value", flat=True)[smallest["key"]])
+
+            print("Using '"+TranslatorEntry.objects.filter(qset).values_list("value", flat=True)[smallest["key"]], "' to predict")
             return TranslatorEntry.objects.filter(qset).values_list("key", flat=True)[smallest["key"]]
         except KeyError:
+            print("Match/near-match not found, giving up...")
             return 'NOT_FOUNT_DRES'
 
 

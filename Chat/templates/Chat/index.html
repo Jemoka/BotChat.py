@@ -340,11 +340,12 @@ body {
                 message_side = 'left';
                 var serverResponse = makeAIRequest("/backend/api/AI_Backend", "SVM", text.toLowerCase()).replace(/['"]+/g, '');
                 //After making the request, it is safe to store the previous one into the database
-                var message2 = null
+                var message2 = null;
                 if (serverResponse === "NOT_FOUNT_DRES") {
+                    var defaultAnswers = ['I don\'t know, can you tell me?', 'I don\'t really know... Give me a hint.' , 'Can you explain?' , 'I am trying here... But can you tell me the answer?']
                     message2 = new Message({
 
-                        text: "I don't know, can you tell me?",
+                        text: defaultAnswers[Math.floor(Math.random() * defaultAnswers.length)],
 
                         message_side: message_side
                     });
