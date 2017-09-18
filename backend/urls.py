@@ -17,6 +17,7 @@ Including another URLconf
 
 from django.conf.urls import url
 from . import views
+from django.conf.urls import include
 from rest_framework.urlpatterns import format_suffix_patterns
 
 
@@ -36,7 +37,6 @@ urlpatterns = [
 
     # */backend/AI_Backend
     url(r'^api/AI_Backend', views.AI_Backend.as_view(), name='The AI Engine'),
-
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

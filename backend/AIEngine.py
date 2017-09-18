@@ -12,6 +12,7 @@ from sklearn.ensemble import RandomForestClassifier
 # Django model libraries
 from backend.models import QAPairEntry, TranslatorEntry
 from django.db.models import Max
+from django.db.models import Q
 
 class DatabaseModule():
     def storeQAPair(self, question_entry, answer_entry):
@@ -26,10 +27,52 @@ class DatabaseModule():
     def getTranslation(self, searchKey):
         return TranslatorEntry.objects.filter(key=searchKey).values_list("value", flat=True)[0]
 
+    def levenshtein(self, s1, s2):
+        if len(s1) < len(s2):
+            return self.levenshtein(s2, s1)
+
+        # len(s1) >= len(s2)
+        if len(s2) == 0:
+            return len(s1)
+
+        previous_row = range(len(s2) + 1)
+        for i, c1 in enumerate(s1):
+            current_row = [i + 1]
+            for j, c2 in enumerate(s2):
+                insertions = previous_row[j + 1] + 1 # j+1 instead of j since previous_row and current_row are one character longer
+                deletions = current_row[j] + 1       # than s2
+                substitutions = previous_row[j] + (c1 != c2)
+                current_row.append(min(insertions, deletions, substitutions))
+            previous_row = current_row
+
+        return previous_row[-1]
+
     def getDictionaryKey(self, searchString):
         try:
-            return TranslatorEntry.objects.filter(value__contains=searchString).values_list("key", flat=True)[0]
-        except IndexError:
+            qset = Q()
+            for term in searchString.split():
+                qset |= Q(value__contains=term)
+            query = list(TranslatorEntry.objects.filter(qset).values_list("value", flat=True))
+            print("possible matches for: "+searchString, ": ", query)
+            distances = []
+            for i in query:
+                distance = self.levenshtein(searchString, i)
+                print("distance: "+str(distance))
+                distances.append(distance)
+            smallest = {}
+            counter = -1
+            for i in distances:
+                counter += 1
+                try:
+                    if smallest["value"] > i:
+                        smallest["value"] = i
+                        smallest["key"] = counter
+                except:
+                    smallest["value"] = i
+                    smallest["key"] = counter
+            print("using..."+TranslatorEntry.objects.filter(qset).values_list("value", flat=True)[smallest["key"]])
+            return TranslatorEntry.objects.filter(qset).values_list("key", flat=True)[smallest["key"]]
+        except KeyError:
             return 'NOT_FOUNT_DRES'
 
 

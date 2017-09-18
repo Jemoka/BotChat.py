@@ -72,7 +72,8 @@
 
         .dash{
             height: 35%;
-            transform: translateX(1600%) translateY(20%);
+            transform: translateY(20%);
+            margin-left: 245px;
             box-sizing: border-box;
             position: absolute;
             outline-width: 0;
@@ -83,9 +84,10 @@
         .key_input {
             border: none;
             height: 35%;
-            transform: translateX(90%) translateY(-5%);
+            margin-left: 267px;
+            transform: translateY(-5%);
             box-sizing: border-box;
-            width: calc(100% - 400px);
+            width: 360px;
             position: absolute;
             outline-width: 0;
             color: gray;
@@ -168,16 +170,20 @@
 
             var lockedClasses = getLockedClasses("/backend/api/Class_Backend");
             var result = jQuery.parseJSON(lockedClasses);
-            for (var i = 0, len = result.length; i < len; i++)
+            if (result.length===0)
             {
-                if (result[i]["classKey"]===nameInput.val().toLowerCase())
-                {
-                    console.log("INVALID CLASS!");
-                    $('.red').text("Invalid Class - Please Use a Valid Class Key");
-                    return false;
-                }
-                else{
-                    window.location.href = '/Chat/'+crc32(crc32(preHash));
+                window.location.href = '/Chat/'+crc32(crc32(preHash));
+            }
+            else {
+                for (var i = 0, len = result.length; i < len; i++) {
+                    if (result[i]["classKey"] === nameInput.val().toLowerCase()) {
+                        console.log("INVALID CLASS!");
+                        $('.red').text("Invalid Class - Please Use a Valid Class Key");
+                        return false;
+                    }
+                    else {
+                        window.location.href = '/Chat/' + crc32(crc32(preHash));
+                    }
                 }
             }
         }
