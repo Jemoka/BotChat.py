@@ -4,7 +4,6 @@ from rest_framework import status
 from .serializer import *
 from .models import TranslatorEntry, QAPairEntry, Class
 from .AIEngine import AIEngine, DatabaseModule
-from django.db.models import Max
 
 
 # The database backend

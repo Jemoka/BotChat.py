@@ -270,14 +270,12 @@ body {
     function makeAIRequest(url, typeEntry, questionEntry)
     {
         var xmlHttp = new XMLHttpRequest();
-        xmlHttp.open("PUT", url, false)
+        xmlHttp.open("PUT", url, false);
         xmlHttp.setRequestHeader("Content-Type", "application/json");
         xmlHttp.setRequestHeader('X-CSRFToken', csrfcookie());
         xmlHttp.send(JSON.stringify({type: typeEntry, question: questionEntry}))
         return xmlHttp.responseText;
     }
-
-
 
     (function () {
         var Message;
@@ -340,9 +338,9 @@ body {
                 message_side = 'left';
                 var serverResponse = makeAIRequest("/backend/api/AI_Backend", "SVM", text.toLowerCase()).replace(/['"]+/g, '');
                 //After making the request, it is safe to store the previous one into the database
-                var endAnswers = ['Ok, cool.', 'Sure.', 'Ok, but I think we have exhausted the topic now...', 'Ok, nice.', 'Right.'];
                 var message2 = null;
                 if (hangingQuestion===true){
+                    var endAnswers = ['Ok, cool.', 'Sure.', 'Ok, but I think we have exhausted the topic now...', 'Ok, nice.', 'Right.', 'Mm Hm.', 'Interesting...'];
                     message2 = new Message({
 
                         text: endAnswers[Math.floor(Math.random() * endAnswers.length)],
@@ -352,7 +350,7 @@ body {
                     hangingQuestion=false
                 }
                 else if (serverResponse === "NOT_FOUNT_DRES") {
-                    var defaultAnswers = ['I don\'t know, can you tell me?', 'I don\'t really know... Give me a hint.' , 'Can you explain?' , 'I am trying here... But can you tell me the answer?'];
+                    var defaultAnswers = ['I don\'t know, can you tell me?', 'I don\'t really know... Give me a hint.' , 'Can you explain?' , 'I am trying here... But can you tell me the answer?', 'Can you elaborate?','What do you mean?',"Huh?"];
                     message2 = new Message({
 
                         text: defaultAnswers[Math.floor(Math.random() * defaultAnswers.length)],
