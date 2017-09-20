@@ -348,6 +348,7 @@ body {
                         message_side: message_side
                     });
                     hangingQuestion=false
+                    putDBEntry("/backend/api/DB_Backend", messageTexts[currentCount-1], messageTexts[currentCount]);
                 }
                 else if (serverResponse === "NOT_FOUNT_DRES") {
                     var defaultAnswers = ['I don\'t know, can you tell me?', 'I don\'t really know... Give me a hint.' , 'Can you explain?' , 'I am trying here... But can you tell me the answer?', 'Can you elaborate?','What do you mean?',"Huh?"];
@@ -357,7 +358,6 @@ body {
 
                         message_side: message_side
                     });
-                    putDBEntry("/backend/api/DB_Backend", messageTexts[currentCount-1], messageTexts[currentCount]);
                     hangingQuestion=true;
                 }
                 else{

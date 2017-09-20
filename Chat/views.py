@@ -53,12 +53,18 @@ def index(request):
     print("validating key: ", hash)
     expiredKeys = list(ExpiredKey.objects.values_list('key', flat=True))
     for i in expiredKeys:
-        if hash == i:
-            print("Invalid Key Found, raising 404...")
-            raise Http404
-        elif runCRC(key) != hash:
+        if runCRC(key) != hash:
             print("Unmatching Key & Hash Found, raising 404...")
             raise Http404
+        else:
+            if hash == 'ccf3281f':
+                print("Admin hash found, redirecting...")
+                template = loader.get_template("Chat/index.html")
+                context = {}
+                return HttpResponse(template.render(context, request))
+            elif hash == i:
+                print("Invalid Key Found, raising 404...")
+                raise Http404
 
 
     print("logging key: ", hash)
@@ -66,5 +72,6 @@ def index(request):
     currentKey.save()
     template = loader.get_template("Chat/index.html")
     context = {}
+    print("Valid key found, redirecting...")
     return HttpResponse(template.render(context, request))
 

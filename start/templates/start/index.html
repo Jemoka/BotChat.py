@@ -162,7 +162,7 @@
 
     $('.send_button').click(function (e) {
 
-        var privateKey = keyInput.val().substring(0,4)
+        var privateKey = keyInput.val().substring(0,4);
         var preHash = nameInput.val().toLowerCase() + privateKey.toLowerCase()
         console.log("prehash="+preHash+"  posthash="+crc32(preHash)+"   keyInput="+keyInput.val().substring(5,13))
         if (crc32(preHash)=== keyInput.val().substring(5,13).toLowerCase())
@@ -176,6 +176,10 @@
             }
             else {
                 for (var i = 0, len = result.length; i < len; i++) {
+                    if(nameInput.val().toLowerCase() === "admin")
+                    {
+                        window.location.href = '/Chat?hash=' + crc32(crc32(preHash))+"&key="+crc32(preHash);
+                    }
                     if (result[i]["classKey"] === nameInput.val().toLowerCase()) {
                         console.log("INVALID CLASS!");
                         $('.red').text("Invalid Class - Please Use a Valid Class Key");
