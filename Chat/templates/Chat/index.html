@@ -351,7 +351,7 @@ body {
                     putDBEntry("/backend/api/DB_Backend", messageTexts[currentCount-1], messageTexts[currentCount]);
                 }
                 else if (serverResponse === "NOT_FOUNT_DRES") {
-                    var defaultAnswers = ['I don\'t know, can you tell me?', 'I don\'t really know... Give me a hint.' , 'Can you explain?' , 'I am trying here... But can you tell me the answer?', 'Can you elaborate?','What do you mean?',"Huh?"];
+                    var defaultAnswers = ['I don\'t know, can you tell me?', 'I don\'t really know... Give me a hint.' , 'Can you tell me the answer?' , 'I am trying here... But can you tell me the answer?', 'I am not sure, but what is a good answer to that?', 'Note that I am only a robot, can you teach me the answer?'];
                     message2 = new Message({
 
                         text: defaultAnswers[Math.floor(Math.random() * defaultAnswers.length)],
